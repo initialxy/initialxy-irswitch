@@ -1,0 +1,13 @@
+[Unit]
+Description=initialxy-irswitch daemon
+After=network.target
+
+[Service]
+User=pi
+Group=pi
+WorkingDirectory=/home/pi/initialxy-irswitch
+Restart=on-failure
+ExecStart=/home/pi/initialxy-irswitch/bin/python /home/pi/initialxy-irswitch/api.py
+
+[Install]
+WantedBy=multi-user.target
