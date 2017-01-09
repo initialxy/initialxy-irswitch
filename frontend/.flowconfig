@@ -1,3 +1,6 @@
 [ignore]
+.*/node_modules/.*/test/.*
+.*/node_modules/acorn
+.*/node_modules/fbjs/.*
 .*/out/.*
 .*/static/.*
