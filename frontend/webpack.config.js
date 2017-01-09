@@ -1,5 +1,8 @@
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const glob = require('glob-all');
+
 module.exports = {
-  entry: './js/entry.js',
+  entry: glob.sync(['./js/entry.js', './css/**/*.css']),
   devtool: 'source-map',
   output: {
     path: './out',
@@ -20,7 +23,14 @@ module.exports = {
             'react'
           ]
         }
+      },
+      {
+        test: /\.css$/,
+        loader: ExtractTextPlugin.extract('style-loader', 'css-loader')
       }
     ]
-  }
+  },
+  plugins: [
+    new ExtractTextPlugin('bundle.css')
+  ]
 };
