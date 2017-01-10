@@ -2,7 +2,6 @@
 'use strict';
 
 import axios from 'axios'
-import nullthrows from 'nullthrows';
 import type {
   AxiosException,
   AxiosResponse,
@@ -15,10 +14,10 @@ const client = axios.create({
 });
 
 function coerceResponse(rawResponse: AxiosResponse): GenericResponse {
-  const status = rawResponse.status === 200 ? 'success' : 'error';
-  const errorType = rawResponse.status === 500
-    ? 'server_error'
-    : null;
+  const isDataSuccess =
+    rawResponse.data && rawResponse.data.status === 'success';
+  const status = isDataSuccess ? 'success' : 'error';
+  const errorType = !isDataSuccess ? 'server_error' : null;
   const errorMessage = (rawResponse.data.message: string);
   return {
     errorMessage,
@@ -60,4 +59,16 @@ async function sendPost(
 
 export async function sendPing(): Promise<GenericResponse> {
   return await sendGet('/ping');
+}
+
+export async function sendOff(): Promise<GenericResponse> {
+  return await sendPost('/off');
+}
+
+export async function sendOn(): Promise<GenericResponse> {
+  return await sendPost('/on');
+}
+
+export async function sendReset(): Promise<GenericResponse> {
+  return await sendPost('/reset');
 }

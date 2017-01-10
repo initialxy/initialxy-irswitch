@@ -13,7 +13,7 @@ async def sleep(seconds):
   )
 
 class MainHandler(tornado.web.RequestHandler):
-  async def get(self):
+  def get(self):
     self.redirect("/static/index.html")
     self.finish()
 
