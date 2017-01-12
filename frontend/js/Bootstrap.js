@@ -1,7 +1,7 @@
 // @flow
 'use strict';
 
-import App from './app';
+import App from './App.react';
 import React from 'react';
 import ReactDOM from 'react-dom';
 

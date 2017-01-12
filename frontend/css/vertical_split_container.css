@@ -1,0 +1,9 @@
+.vertical_split_container {
+  display: flex;
+  flex-direction: column;
+}
+
+.vertical_split_container > * {
+  flex: 1;
+  width: 100%;
+}

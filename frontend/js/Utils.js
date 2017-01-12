@@ -1,7 +1,7 @@
 // @flow
 'use strict';
 
-import {sendPing} from './api';
+import {sendPing} from './Api';
 
 const PING_INTERVAL_MS = 5000;
 

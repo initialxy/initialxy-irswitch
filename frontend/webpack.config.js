@@ -2,7 +2,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const glob = require('glob-all');
 
 module.exports = {
-  entry: glob.sync(['./js/entry.js', './css/**/*.css']),
+  entry: glob.sync(['./js/Entry.js', './css/**/*.css']),
   devtool: 'source-map',
   output: {
     path: './out',
