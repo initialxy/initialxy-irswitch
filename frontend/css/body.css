@@ -1,5 +1,7 @@
 html, body {
+  background-color: #f8f3ec;
   height: 100%;
   margin: 0;
+  overflow: hidden;
   padding: 0;
 }

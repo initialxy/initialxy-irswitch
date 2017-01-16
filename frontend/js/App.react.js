@@ -12,9 +12,9 @@ export default class App extends React.PureComponent {
     return (
       <ResponsiveSplitContainer
         className={[this.props.className, 'app'].join(' ')}>
-        <AppButton>On</AppButton>
-        <AppButton>Off</AppButton>
-        <AppButton>Reset</AppButton>
+        <AppButton color="tertiary" icon="plus">On</AppButton>
+        <AppButton color="secondary" icon="minus">Off</AppButton>
+        <AppButton color="primary" icon="bolt">Reset</AppButton>
       </ResponsiveSplitContainer>
     );
   }

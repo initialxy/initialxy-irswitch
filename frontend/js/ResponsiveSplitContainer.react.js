@@ -13,7 +13,9 @@ export default class ResponsiveSplitContainer extends React.PureComponent {
           this.props.className,
           'responsive_split_container',
         ].join(' ')}>
-        {this.props.children}
+        <div className="responsive_split_container_inner">
+          {this.props.children}
+        </div>
       </div>
     );
   }

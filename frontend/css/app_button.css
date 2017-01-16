@@ -1,9 +1,61 @@
 .app_button {
-  background-color: #dcdcdc;
   border-radius: 0;
   border: 0;
+  font-family: Roboto, Helvetica, Arial, sans-serif;
+  font-size: 1.5em;
+  font-weight: lighter;
   margin: 0;
   outline: 0;
   padding: 0;
-  font-size: 1em;
+  text-transform: uppercase;
+  transition: transform 0.1s ease-in, background-color 0.1s ease-in;
+}
+
+.app_button:active {
+  transform: perspective(1000px) rotate3D(-1, 1, 0, 15deg);
+}
+
+.app_button.primary {
+  background-color: #83e5c7;
+  color: #1f9370;
+  text-shadow: 0 1px #eafbf6;
+}
+
+.app_button.primary:active {
+  background-color: #7ee0c2;
+}
+
+.app_button.secondary {
+  background-color: #ff9999;
+  color: #cc0000;
+  text-shadow: 0 1px #ffe6e6;
+}
+
+.app_button.secondary:active {
+  background-color: #fa9494;
+}
+
+.app_button.tertiary {
+  background-color: #ffda90;
+  color: #cc8800;
+  text-shadow: 0 1px #fff7e6;
+}
+
+.app_button.tertiary:active {
+  background-color: #fad58b;
+}
+
+.app_button > .app_button_inner {
+  display: inline-block;
+  text-align: left;
+  width: 110px;
+}
+
+.app_button > .app_button_inner > .app_button_icon {
+  display: inline-block;
+  width: 30px;
+}
+
+.app_button > .app_button_inner > .app_button_text {
+  display: inline-block;
 }
