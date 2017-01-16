@@ -1,15 +1,17 @@
 // @flow
 'use strict';
 
+import type {Element} from 'react';
+
 import React from 'react';
 
-export default class VerticalSplitContainer extends React.PureComponent {
-  render() {
+export default class ResponsiveSplitContainer extends React.PureComponent {
+  render(): Element<any> {
     return (
       <div
         className={[
           this.props.className,
-          'vertical_split_container',
+          'responsive_split_container',
         ].join(' ')}>
         {this.props.children}
       </div>

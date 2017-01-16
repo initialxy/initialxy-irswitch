@@ -7,7 +7,7 @@ import type {
   AxiosResponse,
   GenericResponse,
   ResponseStatusType,
-} from './types';
+} from './Types';
 
 const client = axios.create({
   timeout: 30000,
