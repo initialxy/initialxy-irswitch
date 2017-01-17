@@ -4,12 +4,14 @@
 import type {Element} from 'react';
 
 import React from 'react';
+import nullthrows from 'nullthrows';
 
 type Props = {
   children?: Array<Element<any>>;
   className?: string;
   color?: 'primary' | 'secondary' | 'tertiary';
-  icon?: 'bolt' | 'minus' | 'plus';
+  icon: 'bolt' | 'minus' | 'plus';
+  hint?: string;
 };
 
 export default class AppButton extends React.PureComponent {
@@ -48,21 +50,18 @@ export default class AppButton extends React.PureComponent {
           this.props.className,
           'app_button',
           colorClass,
-        ].join(' ')}>
-        <div className="app_button_inner">
-          {
-            iconClass !== null
-              ? (
-                <div className="app_button_icon">
-                  <span className={['fa', iconClass].join(' ')} />
-                </div>
-              )
-              : null
-          }
-          <div className="app_button_text">
-            {this.props.children}
-          </div>
-        </div>
+        ].join(' ')}
+        title={this.props.hint || ''}>
+        <span
+          aria-hidden="true"
+          className={['fa', nullthrows(iconClass)].join(' ')}
+        />
+        {this.props.children}
+        {
+          this.props.hint
+            ? <div className="app_button_hint">{this.props.hint}</div>
+            : null
+        }
       </button>
     );
   }

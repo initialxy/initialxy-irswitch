@@ -1,4 +1,7 @@
 html, body {
+  -webkit-appearance: none;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  -webkit-user-select: none;
   background-color: #f8f3ec;
   height: 100%;
   margin: 0;
