@@ -3,8 +3,9 @@
 
 import type {Element} from 'react';
 
-import React from 'react';
 import AppButton from './AppButton.react';
+import ProgressBar from './ProgressBar.react'
+import React from 'react';
 import ResponsiveSplitContainer from './ResponsiveSplitContainer.react'
 
 type State = {
@@ -22,30 +23,36 @@ export default class App extends React.PureComponent {
 
   render(): Element<any> {
     return (
-      <ResponsiveSplitContainer
-        className={[this.props.className, 'app'].join(' ')}>
-        <AppButton
-          color="tertiary"
-          disabled={this.state.isLoading}
-          hint="On"
-          icon="plus"
-          onClick={this._startLoading}
-        />
-        <AppButton
-          color="secondary"
-          disabled={this.state.isLoading}
-          hint="Off"
-          icon="minus"
-          onClick={this._startLoading}
-        />
-        <AppButton
-          color="primary"
-          disabled={this.state.isLoading}
-          hint="Reset"
-          icon="bolt"
-          onClick={this._startLoading}
-        />
-      </ResponsiveSplitContainer>
+      <div className={[this.props.className, 'app'].join(' ')}>
+        <ResponsiveSplitContainer className="app_container">
+          <AppButton
+            color="tertiary"
+            disabled={this.state.isLoading}
+            hint="On"
+            icon="plus"
+            onClick={this._startLoading}
+          />
+          <AppButton
+            color="secondary"
+            disabled={this.state.isLoading}
+            hint="Off"
+            icon="minus"
+            onClick={this._startLoading}
+          />
+          <AppButton
+            color="primary"
+            disabled={this.state.isLoading}
+            hint="Reset"
+            icon="bolt"
+            onClick={this._startLoading}
+          />
+        </ResponsiveSplitContainer>
+        {
+          this.state.isLoading
+            ? <ProgressBar className="app_progress_bar" />
+            : null
+        }
+      </div>
     );
   }
 }

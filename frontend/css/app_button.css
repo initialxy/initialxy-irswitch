@@ -58,5 +58,5 @@
 }
 
 .app_button:disabled {
-  filter: opacity(80%);
+  filter: opacity(25%);
 }
