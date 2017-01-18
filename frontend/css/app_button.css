@@ -8,9 +8,7 @@
   outline: 0;
   padding: 0;
   text-transform: uppercase;
-  transition: transform 0.1s ease-out,
-              background-color 0.1s ease-out,
-              filter 0.1s ease-out;
+  transition: transform 0.1s ease-out, background-color 0.1s ease-out;
 }
 
 .app_button:active {
@@ -57,6 +55,10 @@
   height: 40px;
 }
 
-.app_button:disabled {
-  filter: opacity(25%);
+.app_button > .app_button_icon {
+  transition: opacity 0.3s ease-out;
+}
+
+.app_button:disabled > .app_button_icon {
+  opacity: 0.2;
 }

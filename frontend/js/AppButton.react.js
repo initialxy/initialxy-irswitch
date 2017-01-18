@@ -63,7 +63,11 @@ export default class AppButton extends React.PureComponent {
         title={this.props.hint || ''}>
         <span
           aria-hidden="true"
-          className={['fa', nullthrows(iconClass)].join(' ')}
+          className={[
+            'fa',
+            nullthrows(iconClass),
+            'app_button_icon',
+          ].join(' ')}
         />
         {this.props.children}
         {
