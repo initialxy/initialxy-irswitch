@@ -10,12 +10,19 @@ type Props = {
   children?: Array<Element<any>>;
   className?: string;
   color?: 'primary' | 'secondary' | 'tertiary';
+  disabled: boolean,
   icon: 'bolt' | 'minus' | 'plus';
   hint?: string;
+  onClick?: () => void;
+};
+
+const defaultProps = {
+  disabled: false,
 };
 
 export default class AppButton extends React.PureComponent {
   props: Props;
+  static defaultProps = defaultProps;
   
   render(): Element<any> {
     let colorClass = null;
@@ -51,6 +58,8 @@ export default class AppButton extends React.PureComponent {
           'app_button',
           colorClass,
         ].join(' ')}
+        disabled={this.props.disabled}
+        onClick={this.props.onClick}
         title={this.props.hint || ''}>
         <span
           aria-hidden="true"
