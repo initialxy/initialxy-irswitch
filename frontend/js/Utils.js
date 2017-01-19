@@ -5,6 +5,12 @@ import {sendPing} from './Api';
 
 const PING_INTERVAL_MS = 5000;
 
+let incrementID = 1;
+
+export function getUniqueID(): number {
+  return incrementID++;
+}
+
 export function sleep(milliseconds: number): Promise<void> {
   return new Promise((resolve, _) => setTimeout(resolve, milliseconds));
 }
