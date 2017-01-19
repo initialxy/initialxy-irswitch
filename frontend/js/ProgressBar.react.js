@@ -14,9 +14,25 @@ const defaultProps = {
   isCritical: false,
 }
 
+type State = {
+  isMount: boolean;
+};
+
 export default class ProgressBar extends React.PureComponent {
   props: Props;
   static defaultProps = defaultProps;
+
+  state: State = {
+    isMount: false,
+  };
+
+  constructor(props: Props): void {
+    super(props);
+
+    // Hack to deal with iOS, which sometimes doesn't start the animation upon
+    // mount.
+    setTimeout(() => this.setState({isMount: true}), 100);
+  }
 
   render(): Element<any> {
     return (
@@ -25,7 +41,12 @@ export default class ProgressBar extends React.PureComponent {
         'progress_bar',
         this.props.isCritical ? 'critical' : '',
       ].join(' ')}>
-        <div className="progress_bar_loader" />
+        <div
+          className={[
+            'progress_bar_loader',
+            this.state.isMount ? 'progress_bar_mount' : '',
+          ].join(' ')}
+        />
       </div>
     );
   }

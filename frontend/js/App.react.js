@@ -4,9 +4,10 @@
 import type {Element} from 'react';
 
 import AppButton from './AppButton.react';
-import ProgressBar from './ProgressBar.react'
+import ProgressBar from './ProgressBar.react';
 import React from 'react';
-import ResponsiveSplitContainer from './ResponsiveSplitContainer.react'
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import ResponsiveSplitContainer from './ResponsiveSplitContainer.react';
 
 type State = {
   isLoading: boolean;
@@ -47,11 +48,16 @@ export default class App extends React.PureComponent {
             onClick={this._startLoading}
           />
         </ResponsiveSplitContainer>
-        {
-          this.state.isLoading
-            ? <ProgressBar className="app_progress_bar" />
-            : null
-        }
+        <ReactCSSTransitionGroup
+          transitionEnterTimeout={300}
+          transitionLeaveTimeout={300}
+          transitionName="app_progress_bar">
+          {
+            this.state.isLoading
+              ? <ProgressBar className="app_progress_bar" />
+              : null
+          }
+        </ReactCSSTransitionGroup>
       </div>
     );
   }

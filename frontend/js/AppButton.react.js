@@ -61,20 +61,22 @@ export default class AppButton extends React.PureComponent {
         disabled={this.props.disabled}
         onClick={this.props.onClick}
         title={this.props.hint || ''}>
-        <span
-          aria-hidden="true"
-          className={[
-            'fa',
-            nullthrows(iconClass),
-            'app_button_icon',
-          ].join(' ')}
-        />
-        {this.props.children}
-        {
-          this.props.hint
-            ? <div className="app_button_hint">{this.props.hint}</div>
-            : null
-        }
+        <div className="app_button_contents">
+          <span
+            aria-hidden="true"
+            className={[
+              'fa',
+              nullthrows(iconClass),
+              'app_button_icon',
+            ].join(' ')}
+          />
+          {this.props.children}
+          {
+            this.props.hint
+              ? <div className="app_button_hint">{this.props.hint}</div>
+              : null
+          }
+        </div>
       </button>
     );
   }

@@ -45,20 +45,21 @@
   background-color: #fad58b;
 }
 
-.app_button > .app_button_hint {
+.app_button > .app_button_contents > .app_button_hint {
   height: 0;
   overflow: hidden;
   transition: height 0.1s ease-out 0.5s;
 }
 
-.app_button:active > .app_button_hint {
+.app_button:active > .app_button_contents > .app_button_hint {
   height: 40px;
 }
 
-.app_button > .app_button_icon {
+.app_button > .app_button_contents {
+  display: inline-block;
   transition: opacity 0.3s ease-out;
 }
 
-.app_button:disabled > .app_button_icon {
+.app_button:disabled > .app_button_contents {
   opacity: 0.2;
 }
