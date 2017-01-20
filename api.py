@@ -20,7 +20,11 @@ class MainHandler(tornado.web.RequestHandler):
 class OffHandler(tornado.web.RequestHandler):
   async def post(self):
     await sleep(1)
-    self.write(json.dumps({"status": "success"}))
+    self.write(json.dumps({
+      "message": "Please wait at least 10 seconds before sending another IR " +
+        "signal.",
+      "status": "error"
+    }))
     self.finish()
 
 class OnHandler(tornado.web.RequestHandler):

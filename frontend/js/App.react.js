@@ -2,6 +2,7 @@
 'use strict';
 
 import type {Element} from 'react';
+import type {GenericResponse} from './Types';
 import type {ToastIcon} from './Toast.react';
 
 import AppButton from './AppButton.react';
@@ -11,9 +12,11 @@ import React from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import ResponsiveSplitContainer from './ResponsiveSplitContainer.react';
 import nullthrows from 'nullthrows';
-import {getUniqueID, sleep} from './Utils';
+import {getUniqueID, sleep, waitUntilAPIAlive} from './Utils';
+import {sendOn, sendOff, sendReset} from './Api.js';
 
 type State = {
+  isInactive: boolean;
   isLoading: boolean;
   toastIcon: ?ToastIcon;
   toastID: number;
@@ -22,22 +25,19 @@ type State = {
 
 export default class App extends React.PureComponent {
   state: State = {
+    isInactive: false,
     isLoading: false,
     toastID: 0,
     toastIcon: null,
     toastMessage: '',
   };
 
-  _startLoading = () => {
-    this.setState({isLoading: true});
-  }
-
-  _showToast = async () => {
+  _showToast = async (message: string, icon: ToastIcon) => {
     const id = getUniqueID();
     this.setState({
       toastID: id,
-      toastIcon: 'error',
-      toastMessage: 'Hello World!',
+      toastIcon: icon,
+      toastMessage: message,
     });
     await sleep(3000);
     if (this.state.toastID === id) {
@@ -49,30 +49,73 @@ export default class App extends React.PureComponent {
     }
   }
 
+  _showError = async (response: GenericResponse) => {
+    await this._showToast(nullthrows(response.errorMessage), 'error');
+  }
+
+  _handleResponseAndWait = async (response: GenericResponse) => {
+    if (response.status === 'success') {
+      this.setState({
+        isInactive: response.status === 'success',
+        isLoading: false,
+      });
+      await waitUntilAPIAlive();
+      this.setState({isInactive: false});
+    } else {
+      this.setState({isLoading: false});
+      await this._showError(response);
+    }
+  }
+
+  _onTurnOn = async() => {
+    this.setState({isLoading: true});
+    const response = await sendOn();
+    this.setState({isLoading: false});
+    if (response.status === 'error') {
+      await this._showError(response);
+    }
+  }
+
+  _onTurnOff = async () => {
+    this.setState({isLoading: true});
+    const response = await sendOff();
+    this._handleResponseAndWait(response);
+  }
+
+  _onReset = async () => {
+    this.setState({isLoading: true});
+    const response = await sendReset();
+    this._handleResponseAndWait(response);
+  }
+
   render(): Element<any> {
+    const shouldDisableUI = this.state.isLoading || this.state.isInactive;
+    // Normally onClick={this._onFoo} will work fine, but Flow complains about
+    // return type from an async function is Promise instead of void, so they
+    // are wrapped in arrow function again.
     return (
       <div className={[this.props.className, 'app'].join(' ')}>
         <ResponsiveSplitContainer className="app_container">
           <AppButton
             color="tertiary"
-            disabled={this.state.isLoading}
+            disabled={shouldDisableUI}
             hint="On"
             icon="plus"
-            onClick={this._startLoading}
+            onClick={() => {this._onTurnOn()}}
           />
           <AppButton
             color="secondary"
-            disabled={this.state.isLoading}
+            disabled={shouldDisableUI}
             hint="Off"
             icon="minus"
-            onClick={this._startLoading}
+            onClick={() => {this._onTurnOff()}}
           />
           <AppButton
             color="primary"
-            disabled={this.state.isLoading}
+            disabled={shouldDisableUI}
             hint="Reset"
             icon="bolt"
-            onClick={() => {this._showToast()}}
+            onClick={() => {this._onReset()}}
           />
         </ResponsiveSplitContainer>
         <ReactCSSTransitionGroup
@@ -80,8 +123,13 @@ export default class App extends React.PureComponent {
           transitionLeaveTimeout={300}
           transitionName="app_loading_bar">
           {
-            this.state.isLoading
-              ? <LoadingBar className="app_loading_bar" />
+            shouldDisableUI
+              ? (
+                <LoadingBar
+                  className="app_loading_bar"
+                  isCritical={this.state.isInactive}
+                />
+              )
               : null
           }
         </ReactCSSTransitionGroup>
