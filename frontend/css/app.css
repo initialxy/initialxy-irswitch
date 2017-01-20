@@ -18,24 +18,6 @@
   width: 100%;
 }
 
-.app .app_loading_bar.app_loading_bar-enter {
-  transform: translate(0, -100%);
-}
-
-.app .app_loading_bar.app_loading_bar-enter-active {
-  transform: translate(0, 0);
-  transition: transform 0.3s ease-out;
-}
-
-.app .app_loading_bar.app_loading_bar-leave {
-  transform: translate(0, 0);
-}
-
-.app .app_loading_bar.app_loading_bar-leave-active {
-  transform: translate(0, -100%);
-  transition: transform 0.3s ease-out;
-}
-
 .app .app_toast_wrapper {
   box-sizing: border-box;
   padding: 16px 16px 0 16px;
@@ -49,20 +31,24 @@
   max-width: 800px;
 }
 
+.app .app_loading_bar.app_loading_bar-enter,
 .app .app_toast_wrapper.app_toast-enter {
-  transform: translate(0, -100%) perspective(1000px) rotate3D(1, 0, 0, 90deg);
+  transform: translate(0, -100%);
 }
 
+.app .app_loading_bar.app_loading_bar-enter-active,
 .app .app_toast_wrapper.app_toast-enter-active {
-  transform: translate(0, 0) perspective(1000px) rotate3D(0, 0, 0, 90deg);
+  transform: translate(0, 0);
   transition: transform 0.3s ease-out;
 }
 
+.app .app_loading_bar.app_loading_bar-leave,
 .app .app_toast_wrapper.app_toast-leave {
-  transform: translate(0, 0) perspective(1000px) rotate3D(0, 0, 0, 90deg);
+  transform: translate(0, 0);
 }
 
+.app .app_loading_bar.app_loading_bar-leave-active,
 .app .app_toast_wrapper.app_toast-leave-active {
-  transform: translate(0, -100%) perspective(1000px) rotate3D(1, 0, 0, 90deg);
+  transform: translate(0, -100%);
   transition: transform 0.3s ease-out;
 }

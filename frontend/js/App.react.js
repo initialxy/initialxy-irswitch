@@ -13,7 +13,7 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import ResponsiveSplitContainer from './ResponsiveSplitContainer.react';
 import nullthrows from 'nullthrows';
 import {getUniqueID, sleep, waitUntilAPIAlive} from './Utils';
-import {sendOn, sendOff, sendReset} from './Api.js';
+import {sendOn, sendOff, sendReset} from './API';
 
 type State = {
   isInactive: boolean;
@@ -32,7 +32,7 @@ export default class App extends React.PureComponent {
     toastMessage: '',
   };
 
-  _showToast = async (message: string, icon: ToastIcon) => {
+  async _showToast(message: string, icon: ToastIcon): Promise<void> {
     const id = getUniqueID();
     this.setState({
       toastID: id,
@@ -49,50 +49,65 @@ export default class App extends React.PureComponent {
     }
   }
 
-  _showError = async (response: GenericResponse) => {
-    await this._showToast(nullthrows(response.errorMessage), 'error');
+  _preRequest(): void {
+    this.setState({isLoading: true});
   }
 
-  _handleResponseAndWait = async (response: GenericResponse) => {
-    if (response.status === 'success') {
-      this.setState({
-        isInactive: response.status === 'success',
-        isLoading: false,
-      });
-      await waitUntilAPIAlive();
+  _postRequest(
+    response: GenericResponse,
+    willWaitForAPI: boolean = false,
+  ): void {
+    this.setState({
+      isInactive: willWaitForAPI && response.status === 'success',
+      isLoading: false,
+    });
+  }
+
+  _postWaitForAPI(): void{
+    if (this.state.isInactive) {
       this.setState({isInactive: false});
-    } else {
-      this.setState({isLoading: false});
-      await this._showError(response);
     }
   }
 
-  _onTurnOn = async() => {
-    this.setState({isLoading: true});
+  async _handleResponseAndWait(
+    response: GenericResponse,
+    willWaitForAPI: boolean = false,
+  ): Promise<void> {
+    if (response.status === 'success') {
+      await waitUntilAPIAlive();
+    } else if (willWaitForAPI) {
+      await this._showToast(nullthrows(response.errorMessage), 'error');
+    }
+  }
+
+  async _onTurnOn(): Promise<void> {
+    this._preRequest();
     const response = await sendOn();
-    this.setState({isLoading: false});
-    if (response.status === 'error') {
-      await this._showError(response);
-    }
+    this._postRequest(response);
+    await this._handleResponseAndWait(response);
   }
 
-  _onTurnOff = async () => {
-    this.setState({isLoading: true});
+  async _onTurnOff(): Promise<void> {
+    this._preRequest();
     const response = await sendOff();
-    this._handleResponseAndWait(response);
+    this._postRequest(response, true);
+    await this._handleResponseAndWait(response, true);
+    this._postWaitForAPI()
   }
 
-  _onReset = async () => {
-    this.setState({isLoading: true});
+  async _onReset(): Promise<void> {
+    this._preRequest();
     const response = await sendReset();
-    this._handleResponseAndWait(response);
+    this._postRequest(response, true);
+    await this._handleResponseAndWait(response, true);
+    this._postWaitForAPI()
   }
 
   render(): Element<any> {
     const shouldDisableUI = this.state.isLoading || this.state.isInactive;
-    // Normally onClick={this._onFoo} will work fine, but Flow complains about
-    // return type from an async function is Promise instead of void, so they
-    // are wrapped in arrow function again.
+    // Normally onClick={this._onFoo} will work fine once binded, but Flow
+    // complains about return type from an async function is Promise instead of
+    // void, so they are wrapped in arrow function.
     return (
       <div className={[this.props.className, 'app'].join(' ')}>
         <ResponsiveSplitContainer className="app_container">
