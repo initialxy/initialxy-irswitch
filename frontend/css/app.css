@@ -18,30 +18,51 @@
   width: 100%;
 }
 
-.app .app_notification {
+.app .app_progress_bar.app_progress_bar-enter {
+  transform: translate(0, -100%);
+}
+
+.app .app_progress_bar.app_progress_bar-enter-active {
+  transform: translate(0, 0);
+  transition: transform 0.3s ease-out;
+}
+
+.app .app_progress_bar.app_progress_bar-leave {
+  transform: translate(0, 0);
+}
+
+.app .app_progress_bar.app_progress_bar-leave-active {
+  transform: translate(0, -100%);
+  transition: transform 0.3s ease-out;
+}
+
+.app .app_notification_wrapper {
+  box-sizing: border-box;
+  padding: 16px 16px 0 16px;
   position: fixed;
   top: 0;
   width: 100%;
 }
 
-.app .app_progress_bar.app_progress_bar-enter,
-.app .app_notification.app_notification-enter {
-  transform: translate(0, -100%);
+.app .app_notification_wrapper > .app_notification {
+  margin: auto;
+  max-width: 800px;
 }
 
-.app .app_progress_bar.app_progress_bar-enter-active,
-.app .app_notification.app_notification-enter-active {
-  transform: translate(0, 0);
+.app .app_notification_wrapper.app_notification-enter {
+  transform: translate(0, -100%) perspective(1000px) rotate3D(1, 0, 0, 90deg);
+}
+
+.app .app_notification_wrapper.app_notification-enter-active {
+  transform: translate(0, 0) perspective(1000px) rotate3D(0, 0, 0, 90deg);
   transition: transform 0.3s ease-out;
 }
 
-.app .app_progress_bar.app_progress_bar-leave,
-.app .app_notification.app_notification-leave {
-  transform: translate(0, 0);
+.app .app_notification_wrapper.app_notification-leave {
+  transform: translate(0, 0) perspective(1000px) rotate3D(0, 0, 0, 90deg);
 }
 
-.app .app_progress_bar.app_progress_bar-leave-active,
-.app .app_notification.app_notification-leave-active {
-  transform: translate(0, -100%);
+.app .app_notification_wrapper.app_notification-leave-active {
+  transform: translate(0, -100%) perspective(1000px) rotate3D(1, 0, 0, 90deg);
   transition: transform 0.3s ease-out;
 }

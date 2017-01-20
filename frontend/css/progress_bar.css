@@ -4,14 +4,14 @@
 }
 
 .progress_bar > .progress_bar_loader {
-  background: linear-gradient(to right, #8ce2ec 0%, #bdeff4 100%);
+  background: #bdeff4;
   height: 100%;
   opacity: 0;
-  width: 30%;
+  width: 10%;
 }
 
 .progress_bar > .progress_bar_loader.progress_bar_mount {
-  animation: progress_bar_slide 1.5s linear infinite;
+  animation: progress_bar_slide 1.5s ease infinite;
   opacity: 1;
 }
 
@@ -20,7 +20,7 @@
 }
 
 .progress_bar.critical > .progress_bar_loader {
-  background: linear-gradient(to right, #ff9999 0%, #ffcccc 100%);
+  background: #ffcccc;
 }
 
 @keyframes progress_bar_slide {
@@ -28,6 +28,6 @@
     transform: translate(-100%, 0);
   }
   100% {
-    transform: translate(330%, 0);
+    transform: translate(1000%, 0);
   }
 }

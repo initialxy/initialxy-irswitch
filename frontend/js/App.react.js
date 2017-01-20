@@ -2,6 +2,7 @@
 'use strict';
 
 import type {Element} from 'react';
+import type {NotificationIcon} from './Notification.react';
 
 import AppButton from './AppButton.react';
 import Notification from './Notification.react';
@@ -9,10 +10,12 @@ import ProgressBar from './ProgressBar.react';
 import React from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import ResponsiveSplitContainer from './ResponsiveSplitContainer.react';
+import nullthrows from 'nullthrows';
 import {getUniqueID, sleep} from './Utils';
 
 type State = {
   isLoading: boolean;
+  notificationIcon: ?NotificationIcon;
   notificationID: number;
   notificationMessage: string;
 };
@@ -21,6 +24,7 @@ export default class App extends React.PureComponent {
   state: State = {
     isLoading: false,
     notificationID: 0,
+    notificationIcon: null,
     notificationMessage: '',
   };
 
@@ -30,10 +34,18 @@ export default class App extends React.PureComponent {
 
   _showNotification = async () => {
     const id = getUniqueID();
-    this.setState({notificationID: id, notificationMessage: 'Hello World!'});
+    this.setState({
+      notificationID: id,
+      notificationIcon: 'error',
+      notificationMessage: 'Hello World!',
+    });
     await sleep(3000);
     if (this.state.notificationID === id) {
-      this.setState({notificationID: 0, notificationMessage: ''});
+      this.setState({
+        notificationID: 0,
+        notificationIcon: null,
+        notificationMessage: '',
+      });
     }
   }
 
@@ -80,10 +92,13 @@ export default class App extends React.PureComponent {
           {
             this.state.notificationMessage
               ? (
-                <Notification
-                  className="app_notification"
-                  message={this.state.notificationMessage}
-                />
+                <div className="app_notification_wrapper">
+                  <Notification
+                    className="app_notification"
+                    icon={nullthrows(this.state.notificationIcon)}
+                    message={this.state.notificationMessage}
+                  />
+                </div>
               )
               : null
           }

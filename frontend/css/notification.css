@@ -1,9 +1,10 @@
 .notification {
   background-color: white;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  color: #cc0000;
+  border-radius: 20px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
   display: flex;
   font-family: Helvetica, Arial, sans-serif;
+  overflow: hidden;
 }
 
 .notification > .notification_icon_container {
@@ -11,7 +12,23 @@
   padding: 16px;
 }
 
+.notification > .notification_icon_container >
+.notification_icon.notification_icon_info {
+  color: #2e7a84;
+}
+
+.notification > .notification_icon_container >
+.notification_icon.notification_icon_warning {
+  color: #cc8800;
+}
+
+.notification > .notification_icon_container >
+.notification_icon.notification_icon_error {
+  color: #cc0000;
+}
+
 .notification > .notification_contents {
+  color: #646464;
   flex: 1;
   padding: 16px 16px 16px 0;
 }
