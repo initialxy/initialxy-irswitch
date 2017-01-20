@@ -1,29 +1,29 @@
-.progress_bar {
+.loading_bar {
   background-color: #8ce2ec;
   overflow: hidden;
 }
 
-.progress_bar > .progress_bar_loader {
+.loading_bar > .loading_bar_loader {
   background: #bdeff4;
   height: 100%;
   opacity: 0;
   width: 10%;
 }
 
-.progress_bar > .progress_bar_loader.progress_bar_mount {
-  animation: progress_bar_slide 1.5s ease infinite;
+.loading_bar > .loading_bar_loader.loading_bar_mount {
+  animation: loading_bar_slide 1.5s ease infinite;
   opacity: 1;
 }
 
-.progress_bar.critical {
+.loading_bar.critical {
   background-color: #ff9999;
 }
 
-.progress_bar.critical > .progress_bar_loader {
+.loading_bar.critical > .loading_bar_loader {
   background: #ffcccc;
 }
 
-@keyframes progress_bar_slide {
+@keyframes loading_bar_slide {
   0% {
     transform: translate(-100%, 0);
   }

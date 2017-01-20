@@ -18,7 +18,7 @@ type State = {
   isMount: boolean;
 };
 
-export default class ProgressBar extends React.PureComponent {
+export default class LoadingBar extends React.PureComponent {
   props: Props;
   static defaultProps = defaultProps;
 
@@ -38,13 +38,13 @@ export default class ProgressBar extends React.PureComponent {
     return (
       <div className={[
         this.props.className,
-        'progress_bar',
+        'loading_bar',
         this.props.isCritical ? 'critical' : '',
       ].join(' ')}>
         <div
           className={[
-            'progress_bar_loader',
-            this.state.isMount ? 'progress_bar_mount' : '',
+            'loading_bar_loader',
+            this.state.isMount ? 'loading_bar_mount' : '',
           ].join(' ')}
         />
       </div>

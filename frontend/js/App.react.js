@@ -2,11 +2,11 @@
 'use strict';
 
 import type {Element} from 'react';
-import type {NotificationIcon} from './Notification.react';
+import type {ToastIcon} from './Toast.react';
 
 import AppButton from './AppButton.react';
-import Notification from './Notification.react';
-import ProgressBar from './ProgressBar.react';
+import Toast from './Toast.react';
+import LoadingBar from './LoadingBar.react';
 import React from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import ResponsiveSplitContainer from './ResponsiveSplitContainer.react';
@@ -15,36 +15,36 @@ import {getUniqueID, sleep} from './Utils';
 
 type State = {
   isLoading: boolean;
-  notificationIcon: ?NotificationIcon;
-  notificationID: number;
-  notificationMessage: string;
+  toastIcon: ?ToastIcon;
+  toastID: number;
+  toastMessage: string;
 };
 
 export default class App extends React.PureComponent {
   state: State = {
     isLoading: false,
-    notificationID: 0,
-    notificationIcon: null,
-    notificationMessage: '',
+    toastID: 0,
+    toastIcon: null,
+    toastMessage: '',
   };
 
   _startLoading = () => {
     this.setState({isLoading: true});
   }
 
-  _showNotification = async () => {
+  _showToast = async () => {
     const id = getUniqueID();
     this.setState({
-      notificationID: id,
-      notificationIcon: 'error',
-      notificationMessage: 'Hello World!',
+      toastID: id,
+      toastIcon: 'error',
+      toastMessage: 'Hello World!',
     });
     await sleep(3000);
-    if (this.state.notificationID === id) {
+    if (this.state.toastID === id) {
       this.setState({
-        notificationID: 0,
-        notificationIcon: null,
-        notificationMessage: '',
+        toastID: 0,
+        toastIcon: null,
+        toastMessage: '',
       });
     }
   }
@@ -72,31 +72,31 @@ export default class App extends React.PureComponent {
             disabled={this.state.isLoading}
             hint="Reset"
             icon="bolt"
-            onClick={() => {this._showNotification()}}
+            onClick={() => {this._showToast()}}
           />
         </ResponsiveSplitContainer>
         <ReactCSSTransitionGroup
           transitionEnterTimeout={300}
           transitionLeaveTimeout={300}
-          transitionName="app_progress_bar">
+          transitionName="app_loading_bar">
           {
             this.state.isLoading
-              ? <ProgressBar className="app_progress_bar" />
+              ? <LoadingBar className="app_loading_bar" />
               : null
           }
         </ReactCSSTransitionGroup>
         <ReactCSSTransitionGroup
           transitionEnterTimeout={300}
           transitionLeaveTimeout={300}
-          transitionName="app_notification">
+          transitionName="app_toast">
           {
-            this.state.notificationMessage
+            this.state.toastMessage
               ? (
-                <div className="app_notification_wrapper">
-                  <Notification
-                    className="app_notification"
-                    icon={nullthrows(this.state.notificationIcon)}
-                    message={this.state.notificationMessage}
+                <div className="app_toast_wrapper">
+                  <Toast
+                    className="app_toast"
+                    icon={nullthrows(this.state.toastIcon)}
+                    message={this.state.toastMessage}
                   />
                 </div>
               )
