@@ -1,7 +1,7 @@
 .app_button {
   border-radius: 0;
   border: 0;
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: Roboto, Helvetica, Arial, sans-serif;
   font-size: 2em;
   font-weight: lighter;
   margin: 0;
@@ -45,6 +45,11 @@
   background-color: #fad58b;
 }
 
+.app_button > .app_button_contents {
+  display: inline-block;
+  transition: opacity 0.3s ease-out;
+}
+
 .app_button > .app_button_contents > .app_button_hint {
   height: 0;
   overflow: hidden;
@@ -53,11 +58,6 @@
 
 .app_button:active > .app_button_contents > .app_button_hint {
   height: 40px;
-}
-
-.app_button > .app_button_contents {
-  display: inline-block;
-  transition: opacity 0.3s ease-out;
 }
 
 .app_button:disabled > .app_button_contents {

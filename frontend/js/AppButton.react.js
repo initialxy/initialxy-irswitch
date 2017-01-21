@@ -27,28 +27,34 @@ export default class AppButton extends React.PureComponent {
   render(): Element<any> {
     let colorClass = null;
     switch (this.props.color) {
-      case 'primary':
+      case 'primary': {
         colorClass = 'primary';
         break;
-      case 'secondary':
+      }
+      case 'secondary': {
         colorClass = 'secondary';
         break
-      case 'tertiary':
+      }
+      case 'tertiary': {
         colorClass = 'tertiary';
         break;
+      }
     }
 
     let iconClass = null;
     switch (this.props.icon) {
-      case 'bolt':
+      case 'bolt': {
         iconClass = 'fa-bolt';
         break;
-      case 'minus':
+      }
+      case 'minus': {
         iconClass = 'fa-minus-circle';
         break
-      case 'plus':
+      }
+      case 'plus': {
         iconClass = 'fa-plus-circle';
         break;
+      }
     }
 
     return (

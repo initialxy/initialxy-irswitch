@@ -32,23 +32,6 @@ export default class App extends React.PureComponent {
     toastMessage: '',
   };
 
-  async _showToast(message: string, icon: ToastIcon): Promise<void> {
-    const id = getUniqueID();
-    this.setState({
-      toastID: id,
-      toastIcon: icon,
-      toastMessage: message,
-    });
-    await sleep(3000);
-    if (this.state.toastID === id) {
-      this.setState({
-        toastID: 0,
-        toastIcon: null,
-        toastMessage: '',
-      });
-    }
-  }
-
   _preRequest(): void {
     this.setState({isLoading: true});
   }
@@ -66,6 +49,23 @@ export default class App extends React.PureComponent {
   _postWaitForAPI(): void{
     if (this.state.isInactive) {
       this.setState({isInactive: false});
+    }
+  }
+
+  async _showToast(message: string, icon: ToastIcon): Promise<void> {
+    const id = getUniqueID();
+    this.setState({
+      toastID: id,
+      toastIcon: icon,
+      toastMessage: message,
+    });
+    await sleep(3000);
+    if (this.state.toastID === id) {
+      this.setState({
+        toastID: 0,
+        toastIcon: null,
+        toastMessage: '',
+      });
     }
   }
 

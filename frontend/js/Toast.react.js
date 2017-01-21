@@ -20,15 +20,18 @@ export default class Toast extends React.PureComponent {
   render(): Element<any> {
     let faClass = null;
     switch (this.props.icon) {
-      case 'info':
+      case 'info': {
         faClass = 'fa-info-circle';
         break;
-      case 'warning':
+      }
+      case 'warning': {
         faClass = 'fa-exclamation-triangle';
         break;
-      case 'error':
+      }
+      case 'error': {
         faClass = 'fa-exclamation-circle';
         break;
+      }
     }
 
     return (
