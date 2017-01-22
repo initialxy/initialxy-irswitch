@@ -1,16 +1,14 @@
+import asyncio
 import json
 import os
 import sys
 import time
-import tornado.ioloop
-import tornado.web
 import tornado.gen
+import tornado.ioloop
+import tornado.platform
+import tornado.web
 
-async def sleep(seconds):
-  await tornado.gen.Task(
-    tornado.ioloop.IOLoop.instance().add_timeout,
-    time.time() + seconds
-  )
+loop = None
 
 class MainHandler(tornado.web.RequestHandler):
   def get(self):
@@ -19,7 +17,7 @@ class MainHandler(tornado.web.RequestHandler):
 
 class OffHandler(tornado.web.RequestHandler):
   async def post(self):
-    await sleep(1)
+    await asyncio.sleep(1)
     self.write(json.dumps({
       "message": "Please wait at least 10 seconds before sending another IR " +
         "signal.",
@@ -29,19 +27,19 @@ class OffHandler(tornado.web.RequestHandler):
 
 class OnHandler(tornado.web.RequestHandler):
   async def post(self):
-    await sleep(1)
+    await asyncio.sleep(1)
     self.write(json.dumps({"status": "success"}))
     self.finish()
 
 class ResetHandler(tornado.web.RequestHandler):
   async def post(self):
-    await sleep(1)
+    await asyncio.sleep(1)
     self.write(json.dumps({"status": "success"}))
     self.finish()
 
 class PingHandler(tornado.web.RequestHandler):
   async def get(self):
-    await sleep(1)
+    await asyncio.sleep(1)
     self.write(json.dumps({"status": "success"}))
     self.finish()
 
@@ -70,7 +68,8 @@ def make_app(is_debug):
   )
 
 if __name__ == "__main__":
+  tornado.platform.asyncio.AsyncIOMainLoop().install()
   app = make_app("--debug" in sys.argv)
   app.listen(8000)
-  tornado.ioloop.IOLoop.current().start()
-
+  loop = asyncio.get_event_loop()
+  loop.run_forever()
