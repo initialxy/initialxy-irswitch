@@ -73,10 +73,10 @@ export default class App extends React.PureComponent {
     response: GenericResponse,
     willWaitForAPI: boolean = false,
   ): Promise<void> {
-    if (response.status === 'success') {
-      await waitUntilAPIAlive();
-    } else if (willWaitForAPI) {
+    if (response.status !== 'success') {
       await this._showToast(nullthrows(response.errorMessage), 'error');
+    } else if (willWaitForAPI) {
+      await waitUntilAPIAlive();
     }
   }
 
