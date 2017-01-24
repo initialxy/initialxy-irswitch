@@ -8,38 +8,44 @@ import tornado.ioloop
 import tornado.platform
 import tornado.web
 
-loop = None
+from tools.iremitter import IREmitter
+
+RESET_DELAY_SECS = 10
+OUTLET_NAME = "outlet_a";
 
 class MainHandler(tornado.web.RequestHandler):
   def get(self):
     self.redirect("/static/index.html")
-    self.finish()
 
 class OffHandler(tornado.web.RequestHandler):
   async def post(self):
-    await asyncio.sleep(1)
-    self.write(json.dumps({
-      "message": "Please wait at least 10 seconds before sending another IR " +
-        "signal.",
-      "status": "error"
-    }))
+    emitter = IREmitter(RESET_DELAY_SECS)
+    emitter.emit_off(OUTLET_NAME)
+    self.write(json.dumps({"status": "success"}))
     self.finish()
 
 class OnHandler(tornado.web.RequestHandler):
   async def post(self):
-    await asyncio.sleep(1)
     self.write(json.dumps({"status": "success"}))
     self.finish()
+
+    emitter = IREmitter(RESET_DELAY_SECS)
+    emitter.emit_on(OUTLET_NAME)
 
 class ResetHandler(tornado.web.RequestHandler):
   async def post(self):
-    await asyncio.sleep(1)
     self.write(json.dumps({"status": "success"}))
     self.finish()
 
+    emitter = IREmitter(RESET_DELAY_SECS)
+    emitter.emit_off(OUTLET_NAME)
+
+    await asyncio.sleep(RESET_DELAY_SECS)
+
+    emitter.emit_on(OUTLET_NAME)
+
 class PingHandler(tornado.web.RequestHandler):
   async def get(self):
-    await asyncio.sleep(1)
     self.write(json.dumps({"status": "success"}))
     self.finish()
 
