@@ -1,3 +1,4 @@
+*.pyc
 /bin
 /frontend/node_modules
 /frontend/out
