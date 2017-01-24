@@ -16,7 +16,7 @@ SIGNAL_CONFIG = {
   "signal_delay_decs": 0.008
 }
 
-DATA_PIN = 23
+DATA_PIN = 11
 
 class IREmitter:
   def __init__(self, attempts):
