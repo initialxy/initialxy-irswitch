@@ -11,5 +11,7 @@ html, body {
 
 @font-face {
   font-family: 'Roboto';
-  src: url('../static/Roboto/Roboto-Regular.ttf') format('truetype');
+  src: url('../node_modules/roboto-fontface/fonts/Roboto/Roboto-Regular.ttf') format('truetype');
 }
+
+@import url('../node_modules/font-awesome/css/font-awesome.css');

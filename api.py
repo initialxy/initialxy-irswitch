@@ -19,10 +19,10 @@ class MainHandler(tornado.web.RequestHandler):
 
 class OffHandler(tornado.web.RequestHandler):
   async def post(self):
-    emitter = IREmitter(RESET_DELAY_SECS)
-    emitter.emit_off(OUTLET_NAME)
     self.write(json.dumps({"status": "success"}))
     self.finish()
+    emitter = IREmitter(RESET_DELAY_SECS)
+    emitter.emit_off(OUTLET_NAME)
 
 class OnHandler(tornado.web.RequestHandler):
   async def post(self):
