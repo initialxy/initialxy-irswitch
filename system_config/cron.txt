@@ -1,0 +1,1 @@
+*/5 * * * * /home/pi/initialxy-irswitch/bin/python /home/pi/initialxy-irswitch/irswitch_auto_checker.py 2>&1 | logger -t irswitch_auto_checker

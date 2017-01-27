@@ -31,6 +31,8 @@ class IREmitter:
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(DATA_PIN, GPIO.OUT)
     for i in range(self.__attempts):
+      # Deliberately use synchronous sleep because this is extremely timing
+      # sensitive
       for s in signal_pattern:
         if s == "1":
           GPIO.output(DATA_PIN, 1)

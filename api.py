@@ -10,14 +10,15 @@ import tornado.web
 
 from tools.iremitter import IREmitter
 
-RESET_DELAY_SECS = 10
+SIGNAL_ATTEMPTS = 10
 OUTLET_NAME = "outlet_a";
+RESET_DELAY_SECS = 10
 
 is_debug = "--debug" in sys.argv
 
 class APIHandlerBase(tornado.web.RequestHandler):
   def prepare(self):
-    self.emitter = IREmitter(RESET_DELAY_SECS, is_debug)
+    self.emitter = IREmitter(SIGNAL_ATTEMPTS, is_debug)
 
 class OffHandler(APIHandlerBase):
   async def post(self):
