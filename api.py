@@ -14,36 +14,39 @@ RESET_DELAY_SECS = 10
 OUTLET_NAME = "outlet_a";
 
 is_debug = "--debug" in sys.argv
-emitter = IREmitter(RESET_DELAY_SECS, is_debug)
 
-class MainHandler(tornado.web.RequestHandler):
-  def get(self):
-    self.redirect("/static/index.html")
+class APIHandlerBase(tornado.web.RequestHandler):
+  def prepare(self):
+    self.emitter = IREmitter(RESET_DELAY_SECS, is_debug)
 
-class OffHandler(tornado.web.RequestHandler):
+class OffHandler(APIHandlerBase):
   async def post(self):
     self.write(json.dumps({"status": "success"}))
     self.finish()
-    emitter.emit_off(OUTLET_NAME)
+    self.emitter.emit_off(OUTLET_NAME)
 
-class OnHandler(tornado.web.RequestHandler):
+class OnHandler(APIHandlerBase):
   async def post(self):
     self.write(json.dumps({"status": "success"}))
     self.finish()
-    emitter.emit_on(OUTLET_NAME)
+    self.emitter.emit_on(OUTLET_NAME)
 
-class ResetHandler(tornado.web.RequestHandler):
+class ResetHandler(APIHandlerBase):
   async def post(self):
     self.write(json.dumps({"status": "success"}))
     self.finish()
-    emitter.emit_off(OUTLET_NAME)
+    self.emitter.emit_off(OUTLET_NAME)
     await asyncio.sleep(RESET_DELAY_SECS)
-    emitter.emit_on(OUTLET_NAME)
+    self.emitter.emit_on(OUTLET_NAME)
 
 class PingHandler(tornado.web.RequestHandler):
   async def get(self):
     self.write(json.dumps({"status": "success"}))
     self.finish()
+
+class MainHandler(tornado.web.RequestHandler):
+  def get(self):
+    self.redirect("/static/index.html")
 
 def make_app():
   return tornado.web.Application(
@@ -71,5 +74,4 @@ if __name__ == "__main__":
   tornado.platform.asyncio.AsyncIOMainLoop().install()
   app = make_app()
   app.listen(8000)
-  loop = asyncio.get_event_loop()
-  loop.run_forever()
+  asyncio.get_event_loop().run_forever()
